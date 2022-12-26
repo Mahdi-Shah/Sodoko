@@ -1,4 +1,5 @@
 # include <stdio.h>
+# include <math.h>
 
 void sefrer();
 void get_input();
@@ -11,26 +12,45 @@ void farakhan(int i, int j);
 void satr_o_sotoon_checker(int i, int j);
 void sefrer2(int array[]);
 void corect_jadval();
-void plus_corectivity();
-void multiple_corectivity();
+int plus_corectivity();
+int multiple_corectivity();
+int minus_corectivity();
+int row_coloumn();
+int minus_corectivity();
+int mod_corectivity();
+int division_corectivity();
 
 
 int abaad, tedad_shart;
 int a1 = 0, a2 = 0, a3 = 0, a4 = 0, a5 = 0, a6 = 0;
 //reste_anything[i][0] = tool(whitout javab)       reshte_anything = [i][1] = javab
-int jadval[25][25], reshte[27], reshte_plus[225][27], reshte_minus[225][27], reshte_mod[225][27], reshte_divide[225][27], reshte_equality[225][27], reshte_multiple[225][27];
+int jadval[25][25], reshte[27], reshte_plus[225][17], reshte_minus[225][27], reshte_mod[225][27], reshte_divide[225][27], reshte_equality[225][27], reshte_multiple[225][27];
 char alamat[225];
 
 int main(){
 
     get_input();
     sefrer();
-    mosavi_yab();
-    //printf("%d %d %d&&\n", reshte_equality[0][0][1], reshte[0], reshte_equality[0][0][2]);
+    DFS();
     print_jadval();
 
-
     return 0;
+}
+
+void DFS_Komaki()
+
+void DFS(i){
+    int x, y, z, t;
+    mosavi_yab();
+
+    for (int j = 1; j <= abaad; j++){
+        x = reshte_divide[i][2] / abaad;
+        y = reshte_divide[i][2] % abaad;
+        z = reshte_divide[i][3] / abaad;
+        t = reshte_divide[i][3] % abaad;
+        jadva[x][y] = j
+        jadval[z][t] = j * reshte_divide[i][1];
+        }
 }
 
 void print_jadval(){
@@ -111,6 +131,10 @@ void mosavi_yab(){
 }
 
 void check(int i, int j){
+    int a = plus_corectivity() & multiple_corectivity() & minus_corectivity() & mod_corectivity() & row_coloumn(i, j) & division_corectivity();
+}
+
+int row_coloumn(int i, int j){
     int counter = 0;
     for (int k = 0; k < abaad; k++){
         if (jadval[i][k] == jadval[i][j])
@@ -118,11 +142,9 @@ void check(int i, int j){
         if (jadval[k][j] == jadval[i][j])
             counter++;
     }
-    if(counter > 2)
-        jadval[i][j] = 0;
-    plus_corectivity();
-    multiple_corectivity();
-    corect_jadval();
+    if (counter > 2)
+        return 0;
+    return 1;
 }
 
 void satr_checker(int i){
@@ -137,10 +159,8 @@ void satr_checker(int i){
     }
     if (kontor == abaad - 1){
         jadval[i][akharin] = (((abaad + 1) * (abaad)) / 2) - majmoo;
-        //check() //mohem
+        //check
     }
-    else
-        return ;
 }
 
 void sotoon_checker(int j){
@@ -214,7 +234,7 @@ void corect_jadval(){
     }
 }
 
-void plus_corectivity(){
+int plus_corectivity(){
     int jam = 0, k, t, r = 0;
     for (int i = 0; i < a1; i++){
         for (int j = 2; j < reshte_plus[i][0] + 2; j++){
@@ -227,13 +247,14 @@ void plus_corectivity(){
             }
         }
         if (jam > reshte_plus[i][1])
-            return;
+            return 0;
         else if (r == 0 && jam != reshte_plus[i][1])
-            return;
+            return 0;
     }
+    return 1;
 }
 
-void multiple_corectivity(){
+int multiple_corectivity(){
     int zarb = 1, k, t, r = 0;
     for (int i = 0; i < a2; i++){
         for (int j = 2; j < reshte_multiple[i][0] + 2; j++){
@@ -247,9 +268,53 @@ void multiple_corectivity(){
                 zarb *= jadval[k][t];
         }
         if (zarb > reshte_multiple[i][1])
-            return;
+            return 0;
         else if (r == 0 && zarb != reshte_multiple[i][1])
-            return;
+            return 0;
     }
+    return 1;
 }
 
+int minus_corectivity(){
+    int x, y, z, r;
+    for (int i = 0; i < a3; i++){
+        x = reshte_minus[i][3] / abaad;
+        z = reshte_minus[i][4] / abaad;
+        y = reshte_minus[i][3] % abaad;
+        r = reshte_minus[i][4] % abaad;
+        if (reshte_minus[i][1] != abs(jadval[x][y] - jadval[z][r]))
+            return 0;
+    }
+    return 1;
+}
+
+int mod_corectivity(){
+    int x, y, z, r;
+    for (int i = 0; i < a5; i++){
+        x = reshte_minus[i][3] / abaad;
+        z = reshte_minus[i][4] / abaad;
+        y = reshte_minus[i][3] % abaad;
+        r = reshte_minus[i][4] % abaad;
+        if (!((jadval[x][y] - jadval[z][r]) % reshte_mod[i][1]))
+            return 0;
+    }
+    return 1;
+}
+
+int division_corectivity(){
+    int x, y, z, r, t;
+    for (int i = 0; i < a4; i++){
+        x = reshte_minus[i][3] / abaad;
+        z = reshte_minus[i][4] / abaad;
+        y = reshte_minus[i][3] % abaad;
+        r = reshte_minus[i][4] % abaad;
+        if (jadval[x][y] == jadval[z][r])
+            t = 1;
+        else
+            t = jadval[x][y] / jadval[z][r] + jadval[z][r] / jadval[x][y];
+        if (t != reshte_divide[i][1])
+            return 0;
+
+    }
+    return 1;
+}
